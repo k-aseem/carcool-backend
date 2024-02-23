@@ -1,0 +1,2052 @@
+[
+    {
+        "driverUserId": "driver35199",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                80.64070754333508,
+                -143.02096995443043
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -20.906978762259172,
+                -18.34019994712395
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    87.34552711135564,
+                    129.4693526918067
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 2020,
+            "color": "Green",
+            "plateNumber": "EV6753"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-20T14:00:00",
+        "priceSeat": 24.659736603166728
+    },
+    {
+        "driverUserId": "driver45707",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -42.89748994736757,
+                168.77137906150324
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                11.421916066845583,
+                -166.4183738154549
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -12.42480108914134,
+                    138.17695428411594
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 2015,
+            "color": "White",
+            "plateNumber": "EV6164"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-09T14:00:00",
+        "priceSeat": 17.860269358800878
+    },
+    {
+        "driverUserId": "driver75520",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                73.19416968617597,
+                -31.633031119499208
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                42.05509979294183,
+                -40.80360722559644
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    51.99977469320709,
+                    159.2339461927674
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Polo",
+            "year": 2019,
+            "color": "Green",
+            "plateNumber": "EV1693"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-03T14:00:00",
+        "priceSeat": 25.85046677282373
+    },
+    {
+        "driverUserId": "driver42225",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                24.18136628336096,
+                8.228446831138967
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                53.71029654754801,
+                -41.831243109727126
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    71.94306860332233,
+                    35.54758847019025
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Polo",
+            "year": 2016,
+            "color": "Black",
+            "plateNumber": "EV9691"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-02T14:00:00",
+        "priceSeat": 26.643896458591602
+    },
+    {
+        "driverUserId": "driver91641",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -89.3852874016321,
+                -121.77330937998184
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                26.133776018232012,
+                -114.75285277691849
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    56.42297941971424,
+                    29.01862914275239
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "Ford",
+            "model": "Fiesta",
+            "year": 2019,
+            "color": "White",
+            "plateNumber": "EV3501"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-25T14:00:00",
+        "priceSeat": 15.933671953970526
+    },
+    {
+        "driverUserId": "driver89890",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                63.753444602685846,
+                153.91589475988974
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                59.615611524503976,
+                68.01930405913987
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -36.387519341225335,
+                    40.253354281167674
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Ford",
+            "model": "Fiesta",
+            "year": 2021,
+            "color": "Black",
+            "plateNumber": "EV3856"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-06T14:00:00",
+        "priceSeat": 26.225009275714946
+    },
+    {
+        "driverUserId": "driver51794",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -56.33852686811779,
+                71.95135259467739
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                72.43589837449403,
+                103.20022319982274
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -57.98782411403307,
+                    -47.590398947700464
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Golf",
+            "year": 2017,
+            "color": "White",
+            "plateNumber": "EV3336"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-29T14:00:00",
+        "priceSeat": 24.574523024076598
+    },
+    {
+        "driverUserId": "driver66378",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -46.63454207957039,
+                -149.78511989135322
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                25.359931060769384,
+                42.845166990157225
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -82.19676451901995,
+                    139.54832259241937
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 1
+        },
+        "car": {
+            "make": "BMW",
+            "model": "5 Series",
+            "year": 2017,
+            "color": "Black",
+            "plateNumber": "EV6153"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-24T14:00:00",
+        "priceSeat": 22.59074672830281
+    },
+    {
+        "driverUserId": "driver17317",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -36.381170452924984,
+                81.55129913864215
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                65.73389661365579,
+                37.95382979888825
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -74.23071255381114,
+                    40.03498776917914
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 2018,
+            "color": "Green",
+            "plateNumber": "EV6088"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-18T14:00:00",
+        "priceSeat": 20.683425778173667
+    },
+    {
+        "driverUserId": "driver52522",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -79.5036068794525,
+                137.79279515282315
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                59.33360486345629,
+                173.48898857583595
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    56.040247779472,
+                    62.0730732008486
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "BMW",
+            "model": "5 Series",
+            "year": 2019,
+            "color": "Red",
+            "plateNumber": "EV2821"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-25T14:00:00",
+        "priceSeat": 18.873138103980338
+    },
+    {
+        "driverUserId": "driver70124",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -61.64515580927224,
+                173.35563593769336
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -16.874149592390623,
+                139.81948321561674
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    8.678896514007732,
+                    -152.16141005208175
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 2019,
+            "color": "Blue",
+            "plateNumber": "EV4959"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-15T14:00:00",
+        "priceSeat": 20.38972421546743
+    },
+    {
+        "driverUserId": "driver20282",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                70.44897031311334,
+                42.730647490357285
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                73.73725579536645,
+                -64.82417916163499
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    59.81130819351989,
+                    -86.90719501070366
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 2015,
+            "color": "White",
+            "plateNumber": "EV4021"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-17T14:00:00",
+        "priceSeat": 26.58356407872509
+    },
+    {
+        "driverUserId": "driver86562",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -62.93159775094992,
+                131.21865617043875
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -5.192690482424453,
+                -89.73256134201911
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    31.533764270314833,
+                    104.58073822643718
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 1
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Polo",
+            "year": 2023,
+            "color": "White",
+            "plateNumber": "EV9317"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-31T14:00:00",
+        "priceSeat": 18.686317379398766
+    },
+    {
+        "driverUserId": "driver98584",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -69.211871437356,
+                36.17501955265152
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -51.22006269921774,
+                -140.38623510426314
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    68.50194255879549,
+                    128.37075035867701
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Toyota",
+            "model": "Camry",
+            "year": 2015,
+            "color": "Green",
+            "plateNumber": "EV9328"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-10T14:00:00",
+        "priceSeat": 20.53166309062072
+    },
+    {
+        "driverUserId": "driver14699",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -69.93919170878014,
+                -58.12111489935293
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -45.5558289243984,
+                105.14806792606663
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -88.34712027843294,
+                    -12.406032618619236
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2016,
+            "color": "Black",
+            "plateNumber": "EV6887"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-14T14:00:00",
+        "priceSeat": 17.315913551027535
+    },
+    {
+        "driverUserId": "driver64989",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -3.2741183865198167,
+                66.44747259997885
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                74.59742174859477,
+                15.921748608826988
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    77.95085966692668,
+                    169.88693826057886
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model 3",
+            "year": 2018,
+            "color": "Green",
+            "plateNumber": "EV9745"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-05T14:00:00",
+        "priceSeat": 24.360445817722535
+    },
+    {
+        "driverUserId": "driver10987",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                2.3206438462447068,
+                70.24397056188184
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -26.59790547312342,
+                -20.290022261051348
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -21.79512904710066,
+                    37.08693931019869
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 2021,
+            "color": "White",
+            "plateNumber": "EV9143"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-02T14:00:00",
+        "priceSeat": 21.581307724884372
+    },
+    {
+        "driverUserId": "driver32167",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                55.481845046644935,
+                36.66834812712693
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                10.027190784333655,
+                -49.210205323742
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    21.252574865347427,
+                    -129.79130823399015
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Golf",
+            "year": 2018,
+            "color": "Red",
+            "plateNumber": "EV4107"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-15T14:00:00",
+        "priceSeat": 15.111887499985897
+    },
+    {
+        "driverUserId": "driver90932",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                24.5871440421554,
+                107.38294846641111
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                6.767055079616114,
+                87.69678565643568
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    17.601640061383392,
+                    -153.18693120426425
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Polo",
+            "year": 2022,
+            "color": "Green",
+            "plateNumber": "EV6079"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-26T14:00:00",
+        "priceSeat": 21.104129336234884
+    },
+    {
+        "driverUserId": "driver14685",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -0.2932607550909978,
+                -73.00032002109025
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -41.34313526985472,
+                -160.74455012718443
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -37.77969382120533,
+                    27.57982243814905
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Golf",
+            "year": 2023,
+            "color": "Green",
+            "plateNumber": "EV8339"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-28T14:00:00",
+        "priceSeat": 16.470073697097153
+    },
+    {
+        "driverUserId": "driver61456",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -5.297531808962191,
+                -104.23194501919065
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -70.31949447270549,
+                34.71313007793458
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    40.25448355834004,
+                    29.2284012431127
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Toyota",
+            "model": "Camry",
+            "year": 2018,
+            "color": "White",
+            "plateNumber": "EV3076"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-15T14:00:00",
+        "priceSeat": 29.26333209449781
+    },
+    {
+        "driverUserId": "driver93105",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -67.69969736623119,
+                -107.83913759712365
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -44.42439720014052,
+                80.56532845225684
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -0.5964269984947066,
+                    127.8374854684318
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model 3",
+            "year": 2017,
+            "color": "Blue",
+            "plateNumber": "EV7301"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-12T14:00:00",
+        "priceSeat": 21.51850037018714
+    },
+    {
+        "driverUserId": "driver44239",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -75.60266215516543,
+                40.017332440782866
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -68.98778075893861,
+                -33.8551489276943
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -73.76159702089697,
+                    -102.21074117967053
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 1
+        },
+        "car": {
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 2017,
+            "color": "Red",
+            "plateNumber": "EV9977"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-22T14:00:00",
+        "priceSeat": 22.000138459351323
+    },
+    {
+        "driverUserId": "driver76815",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                86.35130104993155,
+                -6.615614988506962
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -1.5646347086676116,
+                -13.075926558470542
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -38.46891304933781,
+                    -172.1146269332609
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "BMW",
+            "model": "5 Series",
+            "year": 2018,
+            "color": "Black",
+            "plateNumber": "EV2211"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-18T14:00:00",
+        "priceSeat": 23.947978010757186
+    },
+    {
+        "driverUserId": "driver41399",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -34.383402285553956,
+                -48.86873682171512
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                38.92223868291671,
+                159.99013544738114
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -73.2795637966429,
+                    151.49255392633398
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Polo",
+            "year": 2019,
+            "color": "Red",
+            "plateNumber": "EV2990"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-18T14:00:00",
+        "priceSeat": 26.80802847058046
+    },
+    {
+        "driverUserId": "driver83191",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                5.65873009948335,
+                23.49505701629633
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -15.935989289372955,
+                29.25803175952757
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    31.18708722344104,
+                    -7.5454160421286645
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Polo",
+            "year": 2016,
+            "color": "Green",
+            "plateNumber": "EV9624"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-24T14:00:00",
+        "priceSeat": 26.39939290539314
+    },
+    {
+        "driverUserId": "driver27474",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                55.30871803720103,
+                111.14269971170586
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                46.316526908507285,
+                -153.6479488923526
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -36.515301070094345,
+                    168.72586939585602
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 2018,
+            "color": "Green",
+            "plateNumber": "EV2266"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-13T14:00:00",
+        "priceSeat": 25.949419421838734
+    },
+    {
+        "driverUserId": "driver54214",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -65.19606192481052,
+                -43.914102670031724
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                68.98104635847855,
+                -28.73156416160296
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    63.065082756134586,
+                    -35.3053051341206
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 1
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model S",
+            "year": 2023,
+            "color": "Black",
+            "plateNumber": "EV6421"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-07T14:00:00",
+        "priceSeat": 28.494771798645516
+    },
+    {
+        "driverUserId": "driver41803",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                85.31332013012411,
+                -100.91395525037295
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                76.29473254884218,
+                11.948371425483145
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -64.18621695099375,
+                    -78.41693264106486
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model 3",
+            "year": 2015,
+            "color": "White",
+            "plateNumber": "EV1457"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-30T14:00:00",
+        "priceSeat": 23.03609410886953
+    },
+    {
+        "driverUserId": "driver48830",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                15.600558424733492,
+                -65.86533613254484
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -84.16522882956656,
+                -2.8828025393728183
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    29.891284291991923,
+                    170.29861869390356
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model S",
+            "year": 2016,
+            "color": "White",
+            "plateNumber": "EV4744"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-20T14:00:00",
+        "priceSeat": 16.20232746629133
+    },
+    {
+        "driverUserId": "driver59903",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -3.176665426018431,
+                45.251017750347785
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -39.14995348784753,
+                -158.77419431782482
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -86.89094786946862,
+                    -51.69157500833953
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2023,
+            "color": "Red",
+            "plateNumber": "EV5013"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-24T14:00:00",
+        "priceSeat": 16.053875893213107
+    },
+    {
+        "driverUserId": "driver87525",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -87.88434299971703,
+                171.8922160799243
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -79.1560567262564,
+                -64.14063230046796
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -66.5242996221073,
+                    -59.980557319578864
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model 3",
+            "year": 2019,
+            "color": "Blue",
+            "plateNumber": "EV1917"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-27T14:00:00",
+        "priceSeat": 28.18151303050307
+    },
+    {
+        "driverUserId": "driver42719",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                55.541387948298166,
+                18.311443616096
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                27.549018854815557,
+                68.51506941650987
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -48.819336307731,
+                    -154.33274856662086
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model 3",
+            "year": 2015,
+            "color": "Black",
+            "plateNumber": "EV4825"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-09T14:00:00",
+        "priceSeat": 27.452039502930262
+    },
+    {
+        "driverUserId": "driver94591",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                39.450757923495985,
+                -143.6424291500345
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -54.07652795454485,
+                59.44123734273887
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -22.93320972701703,
+                    2.4375863825583224
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 1
+        },
+        "car": {
+            "make": "BMW",
+            "model": "5 Series",
+            "year": 2016,
+            "color": "Red",
+            "plateNumber": "EV9540"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-01T14:00:00",
+        "priceSeat": 21.95495359139317
+    },
+    {
+        "driverUserId": "driver17941",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -52.33847386030457,
+                -107.37495834163713
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                46.64779073714999,
+                -31.990864350578818
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    73.8993743794122,
+                    -65.75471297671785
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Golf",
+            "year": 2015,
+            "color": "Red",
+            "plateNumber": "EV7513"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-26T14:00:00",
+        "priceSeat": 29.884710930865722
+    },
+    {
+        "driverUserId": "driver37903",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                88.77545038583531,
+                133.8499539860432
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                52.54208314812334,
+                -61.68170025142234
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    82.22699560933725,
+                    3.4388812468814365
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 2
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Polo",
+            "year": 2017,
+            "color": "White",
+            "plateNumber": "EV2534"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-18T14:00:00",
+        "priceSeat": 23.694114679053428
+    },
+    {
+        "driverUserId": "driver52335",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -22.484748571860635,
+                -5.915647083883528
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -40.28848327965474,
+                32.99014027426645
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    69.7603797556149,
+                    -134.92103023364032
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Ford",
+            "model": "Fiesta",
+            "year": 2015,
+            "color": "White",
+            "plateNumber": "EV6693"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-02T14:00:00",
+        "priceSeat": 29.495097165275318
+    },
+    {
+        "driverUserId": "driver92966",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -87.44916317541663,
+                115.64429718700933
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                39.62680542647709,
+                -146.3400831819278
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    61.83740536971496,
+                    60.48932137692347
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 1
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Polo",
+            "year": 2016,
+            "color": "Blue",
+            "plateNumber": "EV6220"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-07T14:00:00",
+        "priceSeat": 16.245763416696384
+    },
+    {
+        "driverUserId": "driver89521",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -77.02450062647038,
+                126.01011305644232
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                39.43818055687703,
+                -94.63305087609756
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    36.56422175512721,
+                    170.6026331029057
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 1
+        },
+        "car": {
+            "make": "BMW",
+            "model": "3 Series",
+            "year": 2019,
+            "color": "Blue",
+            "plateNumber": "EV2302"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-16T14:00:00",
+        "priceSeat": 15.315198690329247
+    },
+    {
+        "driverUserId": "driver14868",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                49.60061331098021,
+                175.19040186118463
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                23.145592159895443,
+                115.03494721554307
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -20.001923194860296,
+                    -90.05751327242245
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Ford",
+            "model": "Focus",
+            "year": 2017,
+            "color": "Black",
+            "plateNumber": "EV6596"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-05T14:00:00",
+        "priceSeat": 26.658326395915836
+    },
+    {
+        "driverUserId": "driver19540",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -2.7362525318050217,
+                28.26544952420545
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                72.96878231412333,
+                -74.35892653648199
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -40.76504596032696,
+                    -63.348285974986865
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Ford",
+            "model": "Focus",
+            "year": 2022,
+            "color": "Red",
+            "plateNumber": "EV7647"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-18T14:00:00",
+        "priceSeat": 26.309098838152877
+    },
+    {
+        "driverUserId": "driver56134",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -3.5442024946390376,
+                -128.2831862708019
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                47.97193612644702,
+                125.32052993131083
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    47.30609463622852,
+                    -161.2439482284696
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model 3",
+            "year": 2023,
+            "color": "Red",
+            "plateNumber": "EV3083"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-12T14:00:00",
+        "priceSeat": 22.087113174045612
+    },
+    {
+        "driverUserId": "driver48721",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                61.61955307454329,
+                3.8391968851673823
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                53.33215467634341,
+                117.12461785637652
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    60.56755103077296,
+                    -155.35104394277295
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model S",
+            "year": 2016,
+            "color": "White",
+            "plateNumber": "EV5280"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-05T14:00:00",
+        "priceSeat": 22.735281424328345
+    },
+    {
+        "driverUserId": "driver10627",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                4.747540251590607,
+                -33.62021443859979
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -57.18201492523086,
+                -106.340685506172
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    12.422345795177932,
+                    -110.92943290017625
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Ford",
+            "model": "Fiesta",
+            "year": 2018,
+            "color": "Green",
+            "plateNumber": "EV5755"
+        },
+        "bookings": [],
+        "status": "CANCELLED",
+        "date": "2023-05-16T14:00:00",
+        "priceSeat": 15.380706202785454
+    },
+    {
+        "driverUserId": "driver72457",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -11.889268101871906,
+                -158.7684716093588
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                79.46109949093338,
+                164.40536017339764
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    85.39812555219683,
+                    107.72520288212809
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Volkswagen",
+            "model": "Polo",
+            "year": 2018,
+            "color": "Black",
+            "plateNumber": "EV6242"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-04T14:00:00",
+        "priceSeat": 27.16050590232652
+    },
+    {
+        "driverUserId": "driver70594",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -41.14712834415596,
+                75.02092587707227
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -61.4380212088892,
+                5.787362838709015
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    21.24357827267339,
+                    17.263155150654057
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 1
+        },
+        "car": {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2023,
+            "color": "Black",
+            "plateNumber": "EV2549"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-21T14:00:00",
+        "priceSeat": 22.612089411683492
+    },
+    {
+        "driverUserId": "driver33507",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                12.500409672527837,
+                112.9656035401552
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -78.99874043320372,
+                -84.7389607205598
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -7.8578172938257325,
+                    -149.66734146833062
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 3
+        },
+        "car": {
+            "make": "Ford",
+            "model": "Fiesta",
+            "year": 2023,
+            "color": "Blue",
+            "plateNumber": "EV3070"
+        },
+        "bookings": [],
+        "status": "COMPLETED",
+        "date": "2023-05-13T14:00:00",
+        "priceSeat": 20.642911180395917
+    },
+    {
+        "driverUserId": "driver66692",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                60.62821263306566,
+                30.643176262374112
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -25.02246720017422,
+                -120.00032300173649
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -65.61684892024508,
+                    74.63398826695055
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "BMW",
+            "model": "5 Series",
+            "year": 2021,
+            "color": "White",
+            "plateNumber": "EV6007"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-31T14:00:00",
+        "priceSeat": 15.799093404849053
+    },
+    {
+        "driverUserId": "driver19621",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -70.43840598063807,
+                -1.1895610181078382
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                -54.15151178586195,
+                -117.13915731299653
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    64.75769102778955,
+                    -118.7500764699802
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 1
+        },
+        "car": {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2021,
+            "color": "Green",
+            "plateNumber": "EV3776"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-03T14:00:00",
+        "priceSeat": 24.282601552451197
+    },
+    {
+        "driverUserId": "driver48372",
+        "startPoint": {
+            "name": "City Center",
+            "coordinates": [
+                -84.8686090694803,
+                114.50256146370867
+            ]
+        },
+        "endPoint": {
+            "name": "Downtown",
+            "coordinates": [
+                19.890748883012847,
+                128.85828230012646
+            ]
+        },
+        "stopPoints": [
+            {
+                "name": "Midway Point",
+                "coordinates": [
+                    -66.23849088303885,
+                    27.448941048505475
+                ]
+            }
+        ],
+        "capacity": {
+            "total": 4,
+            "occupied": 4
+        },
+        "car": {
+            "make": "Tesla",
+            "model": "Model 3",
+            "year": 2023,
+            "color": "Blue",
+            "plateNumber": "EV9528"
+        },
+        "bookings": [],
+        "status": "IN_PROGRESS",
+        "date": "2023-05-27T14:00:00",
+        "priceSeat": 16.77887652681713
+    }
+]

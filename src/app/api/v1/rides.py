@@ -1,61 +1,115 @@
-from typing import Any, Annotated
-from fastapi import APIRouter, Depends, Request
+from typing import Any, Annotated, List
+from fastapi import APIRouter, Depends, Request, HTTPException, status
+from fastapi.encoders import jsonable_encoder
 from ...core.exceptions.http_exceptions import DuplicateValueException, ForbiddenException, NotFoundException
-from ...schemas.ride import RideRead
+from ...schemas.ride import RideRead, RideBase, RideCreate
 from ...crud.crud_rides import crud_ride
+from ...core.db.database import get_db_client
+from bson import ObjectId
+
 
 router = APIRouter(prefix="/rides", tags=["rides"])
 
+MONGO_COLLECTION_NAME = "rides"
+MONGO_CLIENT = get_db_client()
+mongo = MONGO_CLIENT[MONGO_COLLECTION_NAME]
 
-# @router.post("/task", response_model=Job, status_code=201, dependencies=[Depends(rate_limiter)])
-# async def create_task(message: str) -> dict[str, str]:
-#     """Create a new background task.
-
-#     Parameters
-#     ----------
-#     message: str
-#         The message or data to be processed by the task.
-
-#     Returns
-#     -------
-#     dict[str, str]
-#         A dictionary containing the ID of the created task.
-#     """
-#     job = await queue.pool.enqueue_job("sample_background_task", message)  # type: ignore
-#     return {"id": job.job_id}
+PAGE_SIZE = 10
 
 
-sample_ride = {
-    # Assuming a string representation for ObjectId
-    "id": "63f5f54a25f54c5654a254a2",
-    "driverId": "63f5f54a25f54c4a25f54a25",
-    "startLocation": "123 Main Street, Anytown",
-    "startLocationCoordinates": "40.7128, -74.0060",
-    "destination": "XYZ Airport",
-    "destinationCoordinates": "40.6442, -73.7822",
-    "stopPoints": ["567 Elm Street, Anytown", "ABC Park"],
-    "date": "2024-02-20",  # ISO 8601 format for datetime
-    "time": "10:30 AM",
-    "availableSeats": 3,
-    "tentativePrice": 25.50,
-    "carMake": "Toyota",
-    "carModel": "Camry",
-    "carYear": 2020,
-    "carColor": "Silver",
-    "carPlateNumber": "ABC123",
-    "createdAt": "2024-02-15T16:45:00",  # ISO 8601 format
-    "updatedAt": "2024-02-19T10:00:00",
-    "bookings": None,  # No bookings yet
-    "status": "OPEN"  # Enum value for status
-}
-
-
-@router.get("/ride/{ride_id}", response_model=RideRead)
-async def get_ride(request: Request, ride_id: str) -> dict:
+@router.post("/ride", status_code=status.HTTP_201_CREATED, response_model=RideRead)
+async def get_ride(request: Request, user_ride: RideCreate):
     # db_user: RideRead | None = await crud_ride.get(
     #     db=db, schema_to_select=RideRead, username=username, is_deleted=False
     # )
     # if db_user is None:
     #     raise NotFoundException("User not found")
+    ride_id = None
+    try:
+        user_ride = jsonable_encoder(user_ride)
+        response = await mongo.insert_one(user_ride)
 
-    return sample_ride
+        if response is None:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to create ride")
+
+        ride_id = response.inserted_id
+        print('id', response.inserted_id)
+
+        created_ride = [await mongo.find_one({"_id": ObjectId(ride_id)})]
+
+        if created_ride is None:
+            # Delete the created ride
+            await mongo.delete_one({"_id": ObjectId(ride_id)})
+            # raise NotFoundException(
+            #     "Failed to fetch created ride from database")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error")
+
+        for doc in created_ride:
+            doc['_id'] = str(doc['_id'])
+
+        return {
+            'result': created_ride,
+            'page': 1,
+            'total': 1
+        }
+
+    except Exception as e:
+        # Handle any unexpected exceptions
+        if ride_id:
+            await mongo.delete_one({"_id": ObjectId(ride_id)})
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error")
+
+
+# get all rides
+
+
+@router.get("", description="GET all rides paginated", response_model=RideRead)
+async def get_ride(request: Request, page: int = 1):
+    skip = (page - 1) * PAGE_SIZE
+    total = await mongo.count_documents({})
+
+    if total < page*PAGE_SIZE:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Invalid Page size")
+
+    # TODO: pagination has various methods and this might not be the best one
+    response = await mongo.find().skip(skip).limit(PAGE_SIZE).to_list(length=None)
+
+    if response is None:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            detail=f"Something went wrong")
+
+    for doc in response:
+        doc['_id'] = str(doc['_id'])
+
+    return {
+        'result': response,
+        'page': page,
+        'total': total
+    }
+    # return RideRead(page, total, result=response)
+# get ride with id
+
+
+@router.get("/ride/{ride_id}", response_model=RideRead)
+async def get_ride(request: Request, ride_id: str):
+    if ride_id is None or (not ObjectId.is_valid(ride_id)):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Invalid ride id")
+
+    response = [await mongo.find_one({"_id": ObjectId(ride_id)})]
+
+    if response is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Ride not found")
+    for doc in response:
+        doc['_id'] = str(doc['_id'])
+
+    return {
+        'result': response,
+        'page': 1,
+        'total': 1
+    }

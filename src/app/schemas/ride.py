@@ -1,11 +1,32 @@
+import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Annotated, Optional, List
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, validator
+from typing import Annotated, Optional, List, Any, Type
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, validator, constr
+from bson import ObjectId
 
 
-class RideBase(BaseModel):
-    id: str = Field(...)
+class PyObjectId(ObjectId):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def __get_pydantic_json_schema__(cls, field_schema: dict[str, Any], b):
+        # This method is used by Pydantic to populate the schema for OpenAPI
+        if field_schema is not None:
+            field_schema.update(type="string", format="ObjectId",
+                                example=str(ObjectId()))
+
+    @classmethod
+    def validate(cls, v, b):
+        if not ObjectId.is_valid(v):
+            raise ValueError("Invalid ObjectId")
+        return str(v)
+
+    def __class_getitem__(cls, item: Type) -> Type:
+        # This method might be required for Pydantic to correctly identify the class in certain situations
+        return cls
 
 
 class RideStatus(str, Enum):
@@ -15,44 +36,63 @@ class RideStatus(str, Enum):
     CANCELLED = "CANCELLED"
 
 
-class RideRead(BaseModel):
-    id: str = Field(...)
-    driverId: str = Field(...)
-    startLocation: str = Field(...)
-    startLocationCoordinates: str = Field(...)
-    destination: str = Field(...)
-    destinationCoordinates: str = Field(...)
-    stopPoints: Optional[List[str]] = Field(None)
-    date: datetime = Field(...)
-    time: str = Field(...)
-    availableSeats: int = Field(...)
-    tentativePrice: float = Field(...)
-    carMake: str = Field(...)
-    carModel: str = Field(...)
-    carYear: int = Field(...)
-    carColor: str = Field(...)
-    carPlateNumber: str = Field(...)
-    createdAt: datetime = Field(...)
-    updatedAt: datetime = Field(...)
-    bookings: Optional[List] = Field(None)
-    status: RideStatus = Field(...)
+class Location(BaseModel):
+    name: str
+    coordinates: List[float]
 
-    # Example validator for date:
-    # @validator("date")
-    # def validate_date(cls, v):
-    #     try:
-    #         datetime.fromisoformat(v)
-    #         return v
-    #     except ValueError:
-    #         raise ValueError(
-    #             "Invalid date format. Please use ISO 8601 format.")
+
+class CarDetails(BaseModel):
+    make: Optional[str]
+    model: Optional[str]
+    year: Optional[int]
+    color: Optional[str]
+    plateNumber: str
+
+
+class Capacity(BaseModel):
+    total: int
+    occupied: int
+
+
+class Bookings(BaseModel):
+    userId: str
+    startPoint: Location
+    endPoint: Location
+
+# TODO: check how to use this custom verifier without breaking /docs for swagger
+
+
+class RideBase(BaseModel):
+    # id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    driverUserId: str = Field(...)
+    startPoint: Location = Field(...)
+    endPoint: Location = Field(...)
+    stopPoints: Optional[List[Location]] = Field(None)
+    capacity: Capacity = Field(...)
+    car: CarDetails = Field(...)
+    bookings: Optional[List[Bookings]] = Field(None)
+    status: RideStatus = Field(...)
+    date: datetime = Field(...)
+    priceSeat: float = Field(...)
+    # createdAt: datetime = Field(...)
+    # updatedAt: datetime = Field(...)
+
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+
+
+class RideRead(BaseModel):
+    class RideWithId(RideBase):
+        id: str = Field(..., alias="_id")
+
+    result: List[RideWithId]
+    page: int
+    total: int
 
 
 class RideCreate(RideBase):
-    model_config = ConfigDict(extra="forbid")
-
-    password: Annotated[str, Field(
-        pattern=r"^.{8,}|[0-9]+|[A-Z]+|[a-z]+|[^a-zA-Z0-9]+$", examples=["Str1ngst!"])]
+    pass
 
 
 class RideUpdate(BaseModel):

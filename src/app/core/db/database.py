@@ -1,27 +1,26 @@
-# from sqlalchemy.ext.asyncio import create_async_engine
-# from sqlalchemy.ext.asyncio.session import AsyncSession
-# from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, sessionmaker
+from motor.motor_asyncio import AsyncIOMotorClient
 
-from ..config import settings
+PASSWORD = "1lfNsyKaid6DTlYx"
+DB_NAME = "carcool"
+
+# Your MongoDB connection details
+MONGO_DETAILS = f"mongodb+srv://VibeWheels1:{PASSWORD}@cluster0.zcdbnsk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+client = AsyncIOMotorClient(MONGO_DETAILS)
+
+
+def get_db_client():
+    return client[DB_NAME]
+
+
+def get_collection(collection_name):
+    return get_db_client()[collection_name]
+
+
+async def close_mongo():
+    await client.close()
+    print('DB closed')
 
 
 class Base():
     pass
-
-
-# DATABASE_URI = 'admin'
-# DATABASE_PREFIX = 'admin'
-# DATABASE_URL = 'admin'
-
-# async_engine = create_async_engine(DATABASE_URL, echo=False, future=True)
-
-# local_session = sessionmaker(
-#     bind=async_engine, class_=AsyncSession, expire_on_commit=False)
-
-
-# async def async_get_db() -> AsyncSession:
-#     async_session = local_session
-
-#     async with async_session() as db:
-#         yield db
-#         await db.commit()
