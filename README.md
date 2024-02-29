@@ -43,4 +43,8 @@ This repository contains the backend codebase for CarCool - a ride-sharing appli
 - Ashish Aggarwal
 
 
+<img src="./carcool.png" alt="CarcCool - Ride Sharing App Logo" width="200" height="200">
+
+
+
 
