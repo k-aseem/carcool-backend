@@ -74,6 +74,7 @@ class RideBase(BaseModel):
     status: RideStatus = Field(...)
     date: datetime = Field(...)
     priceSeat: float = Field(...)
+    id: str = Field(..., alias="_id")
     # createdAt: datetime = Field(...)
     # updatedAt: datetime = Field(...)
 

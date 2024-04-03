@@ -6,6 +6,7 @@ from ...schemas.ride import RideRead, RideBase, RideCreate
 from ...crud.crud_rides import crud_ride
 from ...core.db.database import get_db_client
 from bson import ObjectId
+from datetime import datetime
 
 
 router = APIRouter(prefix="/rides", tags=["rides"])
@@ -65,22 +66,25 @@ async def get_ride(request: Request, user_ride: RideCreate):
 
 # get all rides
 
-
 @router.get("", description="GET all rides paginated", response_model=RideRead)
 async def get_ride(request: Request, page: int = 1):
+    if page < 1:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Page number must be greater than 0")
+
     skip = (page - 1) * PAGE_SIZE
     total = await mongo.count_documents({})
 
-    if total < page*PAGE_SIZE:
+    if skip >= total:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail=f"Invalid Page size")
+                            detail=f"Page number out of range")
 
-    # TODO: pagination has various methods and this might not be the best one
-    response = await mongo.find().skip(skip).limit(PAGE_SIZE).to_list(length=None)
+    # Assuming 'date' is the field you want to sort by. Use -1 for descending order.
+    response = await mongo.find().sort("date", -1).skip(skip).limit(PAGE_SIZE).to_list(length=None)
 
-    if response is None:
+    if not response:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            detail=f"Something went wrong")
+                            detail="Something went wrong")
 
     for doc in response:
         doc['_id'] = str(doc['_id'])
@@ -90,7 +94,10 @@ async def get_ride(request: Request, page: int = 1):
         'page': page,
         'total': total
     }
-    # return RideRead(page, total, result=response)
+
+
+
+
 # get ride with id
 
 
@@ -113,3 +120,17 @@ async def get_ride(request: Request, ride_id: str):
         'page': 1,
         'total': 1
     }
+
+
+@router.get("/driver/{driver_user_id}", response_model=List[RideBase])
+async def get_rides_for_driver(driver_user_id: str):
+    now = datetime.now()
+    rides = await mongo.find({
+        "driverUserId": driver_user_id,
+        "date": {"$gte": now.isoformat()}
+    }).sort("date", 1).to_list(length=100)  # Adjust length as needed
+    print(rides)
+    for ride in rides:
+        ride['_id'] = str(ride['_id'])
+
+    return rides
