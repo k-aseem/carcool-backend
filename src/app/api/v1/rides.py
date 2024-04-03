@@ -129,7 +129,7 @@ async def get_rides_for_driver(driver_user_id: str):
         "driverUserId": driver_user_id,
         "date": {"$gte": now.isoformat()}
     }).sort("date", 1).to_list(length=100)  # Adjust length as needed
-    print(rides)
+    #print(rides)
     for ride in rides:
         ride['_id'] = str(ride['_id'])
 

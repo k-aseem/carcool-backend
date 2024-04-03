@@ -99,5 +99,5 @@ async def get_bookings_for_user(user_id: str):
         
         # Add the modified booking document to the list
         bookings_with_rides.append(jsonable_encoder(booking_document))
-    print(bookings_with_rides)
+    #print(bookings_with_rides)
     return bookings_with_rides
