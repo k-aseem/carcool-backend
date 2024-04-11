@@ -12,23 +12,41 @@ from bson import ObjectId
 
 router = APIRouter(prefix="/bookings", tags=["bookings"])
 
+from fastapi import HTTPException, status
+from pymongo import ReturnDocument
+
 @router.post("/", response_model=BookingRead)
-async def create_a_booking(booking: BookingCreate):
+async def create_or_update_booking(booking: BookingCreate):
     db = get_db_client()
+    # Set the status to 'requested', no matter what the incoming status is
     booking_data = jsonable_encoder(booking)
-    new_booking = await db["booking"].insert_one(booking_data)
+    booking_data['status'] = 'requested'
     
-    if not new_booking.acknowledged:
+    # Create a filter for a document with the matching userId and rideId
+    filter_by = {'userId': booking_data['userId'], 'rideId': booking_data['rideId']}
+    
+    # Define the update to be performed - set the status to 'requested'
+    update_data = {'$set': {'status': 'requested', 'bookingDate': booking_data['bookingDate']}}
+    
+    # Perform the upsert (update if exists, else insert)
+    updated_booking = await db["booking"].find_one_and_update(
+        filter_by, update_data, upsert=True, return_document=ReturnDocument.AFTER
+    )
+    
+    # If the operation did not succeed, raise an HTTPException
+    if not updated_booking:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to create booking"
+            detail="Failed to create or update booking"
         )
 
-    booking_dict = booking_data
-    # Assuming your MongoDB is adding an "_id" field
-    booking_dict["id"] = str(new_booking.inserted_id)
-    print(booking_dict)
+    # Convert the MongoDB's _id field to a string id in the response
+    updated_booking['id'] = str(updated_booking.pop('_id'))
+    booking_dict = jsonable_encoder(updated_booking)
+    #del booking_dict["_id"]  # Delete the original _id from the response
+    
     return booking_dict
+
 
 @router.put("/{booking_id}", response_model=BookingRead)
 async def update_a_booking(booking_id: str, booking: BookingUpdate):
@@ -90,14 +108,13 @@ async def get_bookings_for_user(user_id: str):
         print(booking_document["rideId"]);
         if ride_document:
             ride_document['id'] = str(ride_document.pop('_id'))
-        
-        # Append ride information to the booking document
-        booking_document['ride'] = ride_document
-        
-        # Convert the _id field in the booking document from ObjectId to a string
-        booking_document['id'] = str(booking_document.pop('_id'))
-        
-        # Add the modified booking document to the list
-        bookings_with_rides.append(jsonable_encoder(booking_document))
-    #print(bookings_with_rides)
+            # Append ride information to the booking document
+            booking_document['ride'] = ride_document
+            
+            # Convert the _id field in the booking document from ObjectId to a string
+            booking_document['id'] = str(booking_document.pop('_id'))
+            
+            # Add the modified booking document to the list
+            bookings_with_rides.append(jsonable_encoder(booking_document))
+    print(bookings_with_rides)
     return bookings_with_rides

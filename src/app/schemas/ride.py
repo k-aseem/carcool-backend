@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Annotated, Optional, List, Any, Type
+from typing import Annotated, Optional, List, Any, Type, Literal
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, validator, constr
 from bson import ObjectId
 
@@ -36,10 +36,13 @@ class RideStatus(str, Enum):
     CANCELLED = "CANCELLED"
 
 
-class Location(BaseModel):
-    name: str
+class Point(BaseModel):
+    type: Literal["Point"] = "Point"
     coordinates: List[float]
 
+class Location(BaseModel):
+    name: str
+    location: Point
 
 class CarDetails(BaseModel):
     make: Optional[str]
@@ -74,19 +77,15 @@ class RideBase(BaseModel):
     status: RideStatus = Field(...)
     date: datetime = Field(...)
     priceSeat: float = Field(...)
-    id: str = Field(..., alias="_id")
-    # createdAt: datetime = Field(...)
-    # updatedAt: datetime = Field(...)
 
     class Config:
         populate_by_name = True
         arbitrary_types_allowed = True
 
-
-class RideRead(BaseModel):
-    class RideWithId(RideBase):
+class RideWithId(RideBase):
         id: str = Field(..., alias="_id")
 
+class RideRead(BaseModel):
     result: List[RideWithId]
     page: int
     total: int

@@ -1,13 +1,13 @@
 from typing import Any, Annotated, List
-from fastapi import APIRouter, Depends, Request, HTTPException, status
+from fastapi import APIRouter, Depends, Request, HTTPException, status, Query
 from fastapi.encoders import jsonable_encoder
 from ...core.exceptions.http_exceptions import DuplicateValueException, ForbiddenException, NotFoundException
-from ...schemas.ride import RideRead, RideBase, RideCreate
+from ...schemas.ride import RideRead, RideBase, RideCreate, RideWithId
 from ...crud.crud_rides import crud_ride
 from ...core.db.database import get_db_client
 from bson import ObjectId
-from datetime import datetime
-
+from datetime import datetime, timedelta
+import random
 
 router = APIRouter(prefix="/rides", tags=["rides"])
 
@@ -19,7 +19,7 @@ PAGE_SIZE = 10
 
 
 @router.post("/ride", status_code=status.HTTP_201_CREATED, response_model=RideRead)
-async def get_ride(request: Request, user_ride: RideCreate):
+async def post_ride(request: Request, user_ride: RideCreate):
     # db_user: RideRead | None = await crud_ride.get(
     #     db=db, schema_to_select=RideRead, username=username, is_deleted=False
     # )
@@ -27,6 +27,7 @@ async def get_ride(request: Request, user_ride: RideCreate):
     #     raise NotFoundException("User not found")
     ride_id = None
     try:
+        print("HELLO HERE")
         user_ride = jsonable_encoder(user_ride)
         response = await mongo.insert_one(user_ride)
 
@@ -50,11 +51,13 @@ async def get_ride(request: Request, user_ride: RideCreate):
         for doc in created_ride:
             doc['_id'] = str(doc['_id'])
 
-        return {
+        retObject = {
             'result': created_ride,
             'page': 1,
             'total': 1
         }
+        print(retObject)
+        return retObject
 
     except Exception as e:
         # Handle any unexpected exceptions
@@ -122,7 +125,7 @@ async def get_ride(request: Request, ride_id: str):
     }
 
 
-@router.get("/driver/{driver_user_id}", response_model=List[RideBase])
+@router.get("/driver/{driver_user_id}", response_model=List[RideWithId])
 async def get_rides_for_driver(driver_user_id: str):
     now = datetime.now()
     rides = await mongo.find({
@@ -134,3 +137,126 @@ async def get_rides_for_driver(driver_user_id: str):
         ride['_id'] = str(ride['_id'])
 
     return rides
+
+
+@router.get("/search", response_model=RideRead)
+async def search_rides(startLocation: List[float] = Query(...), endLocation: List[float] = Query(...), date: str = Query(...)):
+    try:
+        print("\n\n###### HEREE#####\n\n")
+        print(startLocation)
+        print(endLocation)
+        # Parse the date string to datetime object
+        search_date = datetime.strptime(date, "%Y-%m-%d")
+        
+        # The next day to include rides for the whole day of search_date
+        next_day = search_date + timedelta(days=1)
+
+        # 2 km in meters for $maxDistance
+        max_distance = 2000
+
+        # Constructing the query
+        query = {
+            "date": {"$gte": search_date.isoformat(), "$lt": next_day.isoformat()},
+            "startPoint.location": {
+                "$nearSphere": {
+                    "$geometry": {
+                        "type": "Point",
+                        "coordinates": startLocation
+                    },
+                    "$maxDistance": max_distance
+                }
+            },
+            "endPoint.location": {
+                "$nearSphere": {
+                    "$geometry": {
+                        "type": "Point",
+                        "coordinates": endLocation
+                    },
+                    "$maxDistance": max_distance
+                }
+            }
+        }
+        print(query)
+        # Assuming mongo is your collection handle
+        rides = await mongo.find(query).to_list(length=10) # Adjust length as needed
+        print(rides[:5])
+        # Convert ObjectId to string and other necessary transformations here
+        for ride in rides:
+            ride['_id'] = str(ride['_id'])
+
+        return {
+            'result': rides,
+            'page': 1,
+            'total': len(rides)
+        }
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
+
+
+valid_locations = [
+    {"name": "3500 Richmond Ln, Blacksburg, VA 24060, USA", "coordinates": [-80.4507745, 37.2140813]},
+    {"name": "1214 University City Blvd, Blacksburg, VA 24060, USA", "coordinates": [-80.4341081, 37.2408491]},
+    {"name": "New York, NY, USA", "coordinates": [-74.0059728, 40.7127753]},
+    {"name": "Squires Student Center, 290 College Ave, Blacksburg, VA 24061, USA", "coordinates": [-80.4179766, 37.2296088]},
+    {"name": "Herndon, VA 20170, USA", "coordinates": [-77.3860976, 38.9695545]},
+    {"name": "Ottawa, ON, Canada", "coordinates": [-75.69719309999999, 45.4215296]},
+    {"name": "White House, TN, USA", "coordinates": [-86.6654844, 36.46874320000001]},
+    {"name": "Toronto, ON, Canada", "coordinates": [-79.3831843, 43.653226]},
+    {"name": "Maryland, USA", "coordinates": [-76.64127119999999, 39.0457549]},
+    {"name": "Blacksburg, VA, USA", "coordinates": [-80.4139393, 37.2295733]}
+]
+
+car_makes_models = [
+    {"make": "BMW", "model": "3 Series", "color": "Green"},
+    {"make": "Tesla", "model": "Model S", "color": "Red"},
+    {"make": "Ford", "model": "Mustang", "color": "Blue"},
+    {"make": "Toyota", "model": "Corolla", "color": "White"},
+    {"make": "Honda", "model": "Civic", "color": "Black"}
+]
+
+@router.post("/populate/{record_count}")
+async def populate_demo_data(record_count: int):
+    try:
+        demo_data = []
+        for _ in range(record_count):
+            start_index, end_index = random.sample(range(len(valid_locations)), 2)
+            startPoint = valid_locations[start_index]
+            endPoint = valid_locations[end_index]
+            car_choice = random.choice(car_makes_models)
+            ride_document = {
+                "driverUserId": f"driver{random.randint(1000, 9999)}@demo.com",
+                "startPoint": {
+                    "name": startPoint["name"],
+                    "location": {"type": "Point", "coordinates": startPoint["coordinates"]}
+                },
+                "endPoint": {
+                    "name": endPoint["name"],
+                    "location": {"type": "Point", "coordinates": endPoint["coordinates"]}
+                },
+                "stopPoints": [],
+                "capacity": {"total": random.randint(1, 6), "occupied": 0},
+                "car": {
+                    "make": car_choice["make"],
+                    "model": car_choice["model"],
+                    "year": random.randint(2010, 2022),
+                    "color": car_choice["color"],
+                    "plateNumber": f"DEMO{random.randint(100, 999)}"
+                },
+                "bookings": [],
+                "status": "IN_PROGRESS",
+                "date": (datetime.now() + timedelta(days=random.randint(-30, 30))).isoformat(),
+                "priceSeat": random.uniform(20, 100),
+            }
+            demo_data.append(ride_document)
+
+        # Inserting demo data into the database
+        result = mongo.insert_many(demo_data)
+        return {"message": f"Successfully inserted {len(demo_data)} demo ride records."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

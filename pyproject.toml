@@ -32,6 +32,8 @@ gunicorn = "^21.2.0"
 bcrypt = "^4.1.1"
 fastcrud = "^0.4.0"
 motor = "^3.3.2"
+firebase_admin = "^5.2.0"
+
 
 
 [build-system]
