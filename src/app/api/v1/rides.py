@@ -1,5 +1,5 @@
 from typing import Any, Annotated, List
-from fastapi import APIRouter, Depends, Request, HTTPException, status, Query
+from fastapi import APIRouter, Depends, Request, HTTPException, status, Query, Body
 from fastapi.encoders import jsonable_encoder
 from ...core.exceptions.http_exceptions import DuplicateValueException, ForbiddenException, NotFoundException
 from ...schemas.ride import RideRead, RideBase, RideCreate, RideWithId
@@ -131,31 +131,24 @@ async def get_rides_for_driver(driver_user_id: str):
     rides = await mongo.find({
         "driverUserId": driver_user_id,
         "date": {"$gte": now.isoformat()}
-    }).sort("date", 1).to_list(length=100)  # Adjust length as needed
-    #print(rides)
+    }).sort("date", 1).to_list(length=100) 
     for ride in rides:
         ride['_id'] = str(ride['_id'])
 
     return rides
 
 
-@router.get("/search", response_model=RideRead)
-async def search_rides(startLocation: List[float] = Query(...), endLocation: List[float] = Query(...), date: str = Query(...)):
+@router.post("/search", response_model=RideRead)
+async def search_rides(startLocation: List[float] = Body(...), endLocation: List[float] = Body(...), date: str = Body(...)):
     try:
-        print("\n\n###### HEREE#####\n\n")
-        print(startLocation)
-        print(endLocation)
-        # Parse the date string to datetime object
         search_date = datetime.strptime(date, "%Y-%m-%d")
         
-        # The next day to include rides for the whole day of search_date
         next_day = search_date + timedelta(days=1)
 
-        # 2 km in meters for $maxDistance
-        max_distance = 2000
+        max_distance = 20000
 
         # Constructing the query
-        query = {
+        fromQuery = {
             "date": {"$gte": search_date.isoformat(), "$lt": next_day.isoformat()},
             "startPoint.location": {
                 "$nearSphere": {
@@ -166,6 +159,10 @@ async def search_rides(startLocation: List[float] = Query(...), endLocation: Lis
                     "$maxDistance": max_distance
                 }
             },
+        }
+
+        toQuery = {
+            "date": {"$gte": search_date.isoformat(), "$lt": next_day.isoformat()},
             "endPoint.location": {
                 "$nearSphere": {
                     "$geometry": {
@@ -176,18 +173,21 @@ async def search_rides(startLocation: List[float] = Query(...), endLocation: Lis
                 }
             }
         }
-        print(query)
-        # Assuming mongo is your collection handle
-        rides = await mongo.find(query).to_list(length=10) # Adjust length as needed
-        print(rides[:5])
-        # Convert ObjectId to string and other necessary transformations here
-        for ride in rides:
-            ride['_id'] = str(ride['_id'])
 
+        fromRides = await mongo.find(fromQuery).sort("date", 1).to_list(length=10000)
+        toRides = await mongo.find(toQuery).sort("date", 1).to_list(length=10000)
+        toRideMap = {}
+        for ride in toRides:
+            ride['_id'] = str(ride['_id'])
+            toRideMap[ride['_id']] = ride;
+        aggRides = []
+        for ride in fromRides:
+            if(str(ride['_id']) in toRideMap):
+                aggRides.append(toRideMap[str(ride['_id'])])
         return {
-            'result': rides,
+            'result': aggRides,
             'page': 1,
-            'total': len(rides)
+            'total': len(fromRides)
         }
 
     except Exception as e:
