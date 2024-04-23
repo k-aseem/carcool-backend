@@ -13,7 +13,7 @@ def get_current_user(credential: HTTPAuthorizationCredentials = Security(HTTPBea
     try:
         # Verify the token
         decoded_token = auth.verify_id_token(credential.credentials)
-        print(decoded_token)
+        #print(decoded_token)
         return decoded_token
     except Exception as err:
         raise HTTPException(
@@ -21,3 +21,5 @@ def get_current_user(credential: HTTPAuthorizationCredentials = Security(HTTPBea
             detail=f"Invalid authentication token. Details: {err}",
             headers={'WWW-Authenticate': 'Bearer error="invalid_token"'},
         )
+
+

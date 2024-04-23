@@ -8,6 +8,15 @@ class CarInfo(BaseModel):
     color: Optional[str] = None
     plate_number: Optional[str] = None
 
+class UserUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    mobile: Optional[str] = None
+    email: Optional[str] = None
+    car_info: Optional[CarInfo] = None
+    profile_picture: Optional[str] = None
+    preferences: Optional[List[str]] = []
+
 class UserCreate(BaseModel):
     firebase_uid: str = Field(..., alias="firebaseUID")
     first_name: Optional[str] = None
@@ -24,10 +33,10 @@ class UserCreate(BaseModel):
 class UserRead(BaseModel):
     id: str = Field(..., alias='_id')
     firebase_uid: str = Field(..., alias="firebaseUID")
-    first_name: str
-    last_name: str
-    mobile: str
-    email: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    mobile: Optional[str] = None
+    email: Optional[str] = None
     car_info: Optional[CarInfo] = None
     profile_picture: Optional[str] = None
     preferences: List[str] = []
