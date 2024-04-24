@@ -15,7 +15,7 @@ MONGO_COLLECTION_NAME = "rides"
 MONGO_CLIENT = get_db_client()
 mongo = MONGO_CLIENT[MONGO_COLLECTION_NAME]
 
-PAGE_SIZE = 10
+PAGE_SIZE = 12
 
 
 @router.post("/ride", status_code=status.HTTP_201_CREATED, response_model=RideRead)
@@ -139,14 +139,15 @@ async def get_rides_for_driver(driver_user_id: str):
 
 
 @router.post("/search", response_model=RideRead)
-async def search_rides(startLocation: List[float] = Body(...), endLocation: List[float] = Body(...), date: str = Body(...)):
+async def search_rides(startLocation: List[float] = Body(...), endLocation: List[float] = Body(...), date: str = Body(...), sort: str = Body(...), page: int = Body(...)):
     try:
+        print(sort)
+        print(page)
         search_date = datetime.strptime(date, "%Y-%m-%d")
         
         next_day = search_date + timedelta(days=1)
 
         max_distance = 20000
-
         # Constructing the query
         fromQuery = {
             "date": {"$gte": search_date.isoformat(), "$lt": next_day.isoformat()},
@@ -184,10 +185,24 @@ async def search_rides(startLocation: List[float] = Body(...), endLocation: List
         for ride in fromRides:
             if(str(ride['_id']) in toRideMap):
                 aggRides.append(toRideMap[str(ride['_id'])])
+
+        #pagination 
+        if page < 1:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Page number must be greater than 0")
+
+        skip = (page - 1) * PAGE_SIZE
+        total = len(aggRides)
+
+        if skip >= total:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Page number out of range")
+        aggRides = aggRides[skip:skip+PAGE_SIZE]
         return {
             'result': aggRides,
-            'page': 1,
-            'total': len(fromRides)
+            'page': page,
+            'total': total,
+            'totalPages': (int)(total/PAGE_SIZE+1)
         }
 
     except Exception as e:
@@ -217,8 +232,10 @@ car_makes_models = [
     {"make": "Tesla", "model": "Model S", "color": "Red"},
     {"make": "Ford", "model": "Mustang", "color": "Blue"},
     {"make": "Toyota", "model": "Corolla", "color": "White"},
-    {"make": "Honda", "model": "Civic", "color": "Black"}
+    {"make": "Honda", "model": "Civic", "color": "Black"},
+    {"make": "Jeep", "model": "Wrangler", "color": "Charcoal"}
 ]
+
 
 @router.post("/populate/{record_count}")
 async def populate_demo_data(record_count: int):

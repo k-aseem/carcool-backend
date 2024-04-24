@@ -89,6 +89,7 @@ class RideRead(BaseModel):
     result: List[RideWithId]
     page: int
     total: int
+    totalPages: int
 
 
 class RideCreate(RideBase):

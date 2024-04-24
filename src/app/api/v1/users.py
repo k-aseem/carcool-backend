@@ -4,7 +4,8 @@ from fastapi.encoders import jsonable_encoder
 from ...schemas.user import UserCreate, UserRead, UserUpdate
 from ...core.db.database import get_db_client
 from bson import ObjectId, errors
-from ...firebase_auth import get_current_user 
+from ...firebase_auth import get_current_user
+from ...services.vibescore import average_vector
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -16,6 +17,7 @@ mongo = MONGO_CLIENT[MONGO_COLLECTION_NAME]
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserRead)
 async def create_user(request: Request, user_data: UserCreate, user: dict = Depends(get_current_user)):
     try:
+        user_data["preferences_vector"] = average_vector(user_data["preferences"])
         print(user_data)
         user_data = jsonable_encoder(user_data)
         response = await mongo.insert_one(user_data)
