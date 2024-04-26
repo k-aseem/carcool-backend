@@ -16,7 +16,7 @@ class UserUpdate(BaseModel):
     car_info: Optional[CarInfo] = None
     profile_picture: Optional[str] = None
     preferences: Optional[List[str]] = []
-    preferences_vector: Optional[List[str]] = []
+    preferences_vector: Optional[List[float]] = []
 
 class UserCreate(BaseModel):
     firebase_uid: str = Field(..., alias="firebaseUID")
@@ -27,7 +27,7 @@ class UserCreate(BaseModel):
     car_info: Optional[CarInfo] = None
     profile_picture: Optional[str] = None
     preferences: Optional[List[str]] = []
-    preferences_vector: Optional[List[str]] = []
+    preferences_vector: Optional[List[float]] = []
     class Config:
         allow_population_by_field_name = True
 
@@ -41,7 +41,7 @@ class UserRead(BaseModel):
     car_info: Optional[CarInfo] = None
     profile_picture: Optional[str] = None
     preferences: List[str] = []
-    preferences_vector: List[str] = []
+    preferences_vector: Optional[List[float]] = []
 
     class Config:
         orm_mode = True

@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 from gensim.models import Word2Vec
 from sklearn.metrics.pairwise import cosine_similarity
-from ...core.db.database import get_db_client
 from sklearn.metrics.pairwise import cosine_similarity
 
 
@@ -177,11 +176,29 @@ def average_vector(interests):
 
 
 def get_vibescore(current_user_id, user_avg_vector, dict_users_vectors):
-    similarity_scores = {}
-    for comp_user_id, comp_user_avg_vector in dict_users_vectors.items():
-        if comp_user_id != current_user_id:
-            similarity_scores[comp_user_id] = cosine_similarity([user_avg_vector], [comp_user_avg_vector])[0][0]
+    if not user_avg_vector:
+        return {}  # Return empty if the current user's vector is empty to avoid errors
 
+    similarity_scores = {}
+    # cache 
+    score_cache = {}
+
+    for comp_user_id, comp_user_avg_vector in dict_users_vectors.items():
+        if not comp_user_avg_vector:  # Skip if comparison vector is empty
+            continue
+
+        # Calculate only if not already calculated
+        if comp_user_id not in score_cache:
+            if comp_user_id != current_user_id:
+                score = cosine_similarity([user_avg_vector], [comp_user_avg_vector])[0][0]
+            else:
+                score = 1.0  # perfect similarity
+            score_cache[comp_user_id] = score
+
+        similarity_scores[comp_user_id] = score_cache[comp_user_id]
+
+    # Return a sorted list of tuples (user_id, score), sorted by score in descending order
     sorted_users = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)
     return sorted_users
+
 

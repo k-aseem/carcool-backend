@@ -17,7 +17,6 @@ mongo = MONGO_CLIENT[MONGO_COLLECTION_NAME]
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserRead)
 async def create_user(request: Request, user_data: UserCreate, user: dict = Depends(get_current_user)):
     try:
-        user_data["preferences_vector"] = average_vector(user_data["preferences"])
         print(user_data)
         user_data = jsonable_encoder(user_data)
         response = await mongo.insert_one(user_data)
@@ -67,19 +66,42 @@ async def get_all_users(request: Request):
 
     return users
 
-@router.get("/firebase/", response_model=UserRead)
-async def get_user_by_firebase(request: Request, firebase_user: dict = Depends(get_current_user)):
-    firebase_uid = firebase_user.get("uid")
+
+async def get_user_by_firebase_uid(firebase_uid: str):
     if not firebase_uid:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Firebase UID not found")
+        raise ValueError("Firebase UID not provided")
 
     user = await mongo.find_one({"firebaseUID": firebase_uid})
     if user is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        raise ValueError("User not found")
 
     user['_id'] = str(user['_id'])
-    print(user)
     return user
+
+async def get_user_preference_vectors(user_ids):
+    object_ids = [ObjectId(id) for id in user_ids]
+    query = {"_id": {"$in": object_ids}}
+    users = await mongo.find(query).to_list(None)  # Fetch all users in one go
+    #print(users)
+    user_vectors = {}
+    user_details = {}
+    for user in users:
+        user_id_str = str(user['_id']) 
+        user_vectors[user_id_str] = user.get('preferences_vector', [])
+        user_details[user_id_str] = {"name": user.get('first_name')+ " " + user.get('last_name')}
+    
+    return (user_vectors, user_details)
+
+
+
+@router.get("/firebase/", response_model=UserRead)
+async def get_user_by_firebase(request: Request, firebase_user: dict = Depends(get_current_user)):
+    try:
+        user = await get_user_by_firebase_uid(firebase_user.get("uid"))
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    return user
+
 
 @router.put("/update", response_model=UserRead)
 async def update_user(request: Request, update_data: UserUpdate, firebase_user: dict = Depends(get_current_user)):
@@ -89,6 +111,8 @@ async def update_user(request: Request, update_data: UserUpdate, firebase_user: 
 
     try:
         update_data = jsonable_encoder(update_data)
+        update_data["preferences_vector"] = average_vector(update_data["preferences"]).tolist()
+        print(update_data["preferences"])
         result = await mongo.update_one({"firebaseUID": firebase_uid}, {"$set": update_data})
         if result.matched_count == 0:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")

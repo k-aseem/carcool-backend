@@ -7,6 +7,9 @@ from ...crud.crud_rides import crud_ride
 from ...core.db.database import get_db_client
 from bson import ObjectId
 from datetime import datetime, timedelta
+from ...firebase_auth import get_current_user
+from .users import get_user_by_firebase_uid, get_user_preference_vectors
+from ...services.vibescore import get_vibescore
 import random
 
 router = APIRouter(prefix="/rides", tags=["rides"])
@@ -121,7 +124,8 @@ async def get_ride(request: Request, ride_id: str):
     return {
         'result': response,
         'page': 1,
-        'total': 1
+        'total': 1,
+        'totalPages': 1
     }
 
 
@@ -138,11 +142,15 @@ async def get_rides_for_driver(driver_user_id: str):
     return rides
 
 
+
 @router.post("/search", response_model=RideRead)
-async def search_rides(startLocation: List[float] = Body(...), endLocation: List[float] = Body(...), date: str = Body(...), sort: str = Body(...), page: int = Body(...)):
+async def search_rides(startLocation: List[float] = Body(...), endLocation: List[float] = Body(...), date: str = Body(...), sort: str = Body(...), page: int = Body(...), firebase_user: dict = Depends(get_current_user)):
+    firebase_uid = firebase_user.get("uid")
+    if not firebase_uid:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Firebase UID not found")
     try:
         print(sort)
-        print(page)
+        print(firebase_uid)
         search_date = datetime.strptime(date, "%Y-%m-%d")
         
         next_day = search_date + timedelta(days=1)
@@ -174,9 +182,11 @@ async def search_rides(startLocation: List[float] = Body(...), endLocation: List
                 }
             }
         }
-
-        fromRides = await mongo.find(fromQuery).sort("date", 1).to_list(length=10000)
-        toRides = await mongo.find(toQuery).sort("date", 1).to_list(length=10000)
+        sortOnDB = "date";
+        if(sort=="lowestPrice"):
+            sortOnDB = "priceSeat"
+        fromRides = await mongo.find(fromQuery).sort(sortOnDB, 1).to_list(length=10000)
+        toRides = await mongo.find(toQuery).sort(sortOnDB, 1).to_list(length=10000)
         toRideMap = {}
         for ride in toRides:
             ride['_id'] = str(ride['_id'])
@@ -185,24 +195,42 @@ async def search_rides(startLocation: List[float] = Body(...), endLocation: List
         for ride in fromRides:
             if(str(ride['_id']) in toRideMap):
                 aggRides.append(toRideMap[str(ride['_id'])])
+        
+        # After aggregating rides and extracting user IDs
+        user_ids = list({ride['driverUserId'] for ride in aggRides})
+        user_vectors, user_details = await get_user_preference_vectors(user_ids)
+        print(user_details)
+        current_user = await get_user_by_firebase_uid(firebase_uid)
+        current_user_vector = current_user.get('preferences_vector', [])
 
-        #pagination 
+        # Calculate vibe scores
+        vibe_scores = get_vibescore(str(current_user['_id']), current_user_vector, user_vectors)
+        
+        # Append vibe scores to each ride
+        for ride in aggRides:
+            ride_id = str(ride['_id'])
+            ride['vibeScore'] = next((score for user_id, score in vibe_scores if user_id == ride['driverUserId']), 0)
+            ride['vibeScore']=(int)(ride['vibeScore']*100)
+            ride['userName'] = user_details[ride['driverUserId']]['name']
+        
+        if(sort=="vibe"):
+            aggRides.sort(key=lambda x: x['vibeScore'], reverse=True)
+
+        # Handling pagination
         if page < 1:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail=f"Page number must be greater than 0")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Page number must be greater than 0")
 
         skip = (page - 1) * PAGE_SIZE
         total = len(aggRides)
+        if total > 0 and skip >= total:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Page number out of range")
 
-        if skip >= total:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail=f"Page number out of range")
-        aggRides = aggRides[skip:skip+PAGE_SIZE]
+        # Return paginated results
         return {
-            'result': aggRides,
+            'result': aggRides[skip:skip+PAGE_SIZE],
             'page': page,
             'total': total,
-            'totalPages': (int)(total/PAGE_SIZE+1)
+            'totalPages': (int)(total/PAGE_SIZE + 1)
         }
 
     except Exception as e:
@@ -236,18 +264,21 @@ car_makes_models = [
     {"make": "Jeep", "model": "Wrangler", "color": "Charcoal"}
 ]
 
+user_ids = ["6612bf9a29d162cfa6cfa45a", "66294c1a5565abfbbd5ff2da", "662991898348bb698a47b8f2", "662993ca8035b4fb4120e3d1", "6629942c8035b4fb4120e3d2", "662994e48035b4fb4120e3d3", "662996308035b4fb4120e3d4"]
+
 
 @router.post("/populate/{record_count}")
 async def populate_demo_data(record_count: int):
     try:
         demo_data = []
         for _ in range(record_count):
+            user_id = random.choice(user_ids)  # Randomly pick a user
             start_index, end_index = random.sample(range(len(valid_locations)), 2)
             startPoint = valid_locations[start_index]
             endPoint = valid_locations[end_index]
             car_choice = random.choice(car_makes_models)
             ride_document = {
-                "driverUserId": f"driver{random.randint(1000, 9999)}@demo.com",
+                "driverUserId": user_id,  # Use the randomly picked user ID
                 "startPoint": {
                     "name": startPoint["name"],
                     "location": {"type": "Point", "coordinates": startPoint["coordinates"]}
@@ -267,7 +298,7 @@ async def populate_demo_data(record_count: int):
                 },
                 "bookings": [],
                 "status": "IN_PROGRESS",
-                "date": (datetime.now() + timedelta(days=random.randint(-30, 30))).isoformat(),
+                "date": (datetime.now() + timedelta(days=random.randint(0, 5))).isoformat(),  # Random date from today to +30 days
                 "priceSeat": random.uniform(20, 100),
             }
             demo_data.append(ride_document)

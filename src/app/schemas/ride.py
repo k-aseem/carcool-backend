@@ -84,6 +84,8 @@ class RideBase(BaseModel):
 
 class RideWithId(RideBase):
         id: str = Field(..., alias="_id")
+        vibeScore: Optional[float] = Field(None, description="The calculated compatibility score based on user preferences.")
+        userName: Optional[str]
 
 class RideRead(BaseModel):
     result: List[RideWithId]
