@@ -8,6 +8,8 @@ from ...core.db.database import get_db_client
 from typing import List, Optional
 from pymongo import DESCENDING
 from bson import ObjectId
+from ...firebase_auth import get_current_user
+from .users import get_user_by_firebase_uid
 
 
 router = APIRouter(prefix="/bookings", tags=["bookings"])
@@ -91,8 +93,13 @@ async def get_bookings_for_ride(ride_id: str):
     return bookings
 
 @router.get("/for-user/{user_id}")
-async def get_bookings_for_user(user_id: str):
+async def get_bookings_for_user(user_id: str, firebase_user: dict = Depends(get_current_user)):
+    firebase_uid = firebase_user.get("uid")
+    if not firebase_uid:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Firebase UID not found")
+    current_user = await get_user_by_firebase_uid(firebase_uid)
     db = get_db_client()
+
     bookings_documents = await db["booking"].find(
         {"userId": user_id}
     ).sort("bookingDate", DESCENDING).to_list(length=None)
@@ -109,6 +116,7 @@ async def get_bookings_for_user(user_id: str):
         if ride_document:
             ride_document['id'] = str(ride_document.pop('_id'))
             # Append ride information to the booking document
+            ride_document['userName'] = current_user['first_name'] + " " + current_user['last_name']
             booking_document['ride'] = ride_document
             
             # Convert the _id field in the booking document from ObjectId to a string

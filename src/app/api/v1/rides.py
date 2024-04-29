@@ -11,6 +11,7 @@ from ...firebase_auth import get_current_user
 from .users import get_user_by_firebase_uid, get_user_preference_vectors
 from ...services.vibescore import get_vibescore
 import random
+import re
 
 router = APIRouter(prefix="/rides", tags=["rides"])
 
@@ -22,16 +23,21 @@ PAGE_SIZE = 12
 
 
 @router.post("/ride", status_code=status.HTTP_201_CREATED, response_model=RideRead)
-async def post_ride(request: Request, user_ride: RideCreate):
+async def post_ride(request: Request, user_ride: RideCreate, firebase_user: dict = Depends(get_current_user)):
     # db_user: RideRead | None = await crud_ride.get(
     #     db=db, schema_to_select=RideRead, username=username, is_deleted=False
     # )
     # if db_user is None:
     #     raise NotFoundException("User not found")
+    firebase_uid = firebase_user.get("uid")
+    if not firebase_uid:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Firebase UID not found")
+    current_user = await get_user_by_firebase_uid(firebase_uid)
     ride_id = None
     try:
         print("HELLO HERE")
         user_ride = jsonable_encoder(user_ride)
+        user_ride["driverUserId"] = current_user['_id'];
         response = await mongo.insert_one(user_ride)
 
         if response is None:
@@ -57,7 +63,8 @@ async def post_ride(request: Request, user_ride: RideCreate):
         retObject = {
             'result': created_ride,
             'page': 1,
-            'total': 1
+            'total': 1,
+            'totalPages': 1
         }
         print(retObject)
         return retObject
@@ -98,7 +105,8 @@ async def get_ride(request: Request, page: int = 1):
     return {
         'result': response,
         'page': page,
-        'total': total
+        'total': total,
+        'totalPages': 1
     }
 
 
@@ -108,7 +116,8 @@ async def get_ride(request: Request, page: int = 1):
 
 
 @router.get("/ride/{ride_id}", response_model=RideRead)
-async def get_ride(request: Request, ride_id: str):
+async def get_ride(request: Request, ride_id: str, firebase_user: dict = Depends(get_current_user)):
+    firebase_uid = firebase_user.get("uid")
     if ride_id is None or (not ObjectId.is_valid(ride_id)):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail=f"Invalid ride id")
@@ -118,8 +127,22 @@ async def get_ride(request: Request, ride_id: str):
     if response is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Ride not found")
+    
+    user_ids = []
     for doc in response:
         doc['_id'] = str(doc['_id'])
+        user_ids.append(doc['driverUserId'])
+    user_vectors, user_details = await get_user_preference_vectors(user_ids)
+    print(user_details)
+    current_user = await get_user_by_firebase_uid(firebase_uid)
+    current_user_vector = current_user.get('preferences_vector', [])
+
+    # Calculate vibe scores
+    vibe_scores = get_vibescore(str(current_user['_id']), current_user_vector, user_vectors)
+    for doc in response:
+        doc['vibeScore'] = next((score for user_id, score in vibe_scores if user_id == doc['driverUserId']), 0)
+        doc['vibeScore']=(int)(doc['vibeScore']*100)
+        doc['userName'] = user_details[doc['driverUserId']]['name']
 
     return {
         'result': response,
@@ -130,15 +153,19 @@ async def get_ride(request: Request, ride_id: str):
 
 
 @router.get("/driver/{driver_user_id}", response_model=List[RideWithId])
-async def get_rides_for_driver(driver_user_id: str):
+async def get_rides_for_driver(firebase_user: dict = Depends(get_current_user)):
+    firebase_uid = firebase_user.get("uid")
+    if not firebase_uid:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Firebase UID not found")
+    current_user = await get_user_by_firebase_uid(firebase_uid)
     now = datetime.now()
     rides = await mongo.find({
-        "driverUserId": driver_user_id,
+        "driverUserId": str(current_user['_id']),
         "date": {"$gte": now.isoformat()}
-    }).sort("date", 1).to_list(length=100) 
+    }).sort("date", 1).to_list(length=5) 
     for ride in rides:
         ride['_id'] = str(ride['_id'])
-
+    print(rides)
     return rides
 
 
@@ -193,8 +220,12 @@ async def search_rides(startLocation: List[float] = Body(...), endLocation: List
             toRideMap[ride['_id']] = ride;
         aggRides = []
         for ride in fromRides:
-            if(str(ride['_id']) in toRideMap):
-                aggRides.append(toRideMap[str(ride['_id'])])
+            if str(ride['_id']) in toRideMap:
+                ride_data = toRideMap[str(ride['_id'])]
+                if 'driverUserId' in ride_data and bool(re.match(r'^[0-9a-fA-F]{24}$', ride_data['driverUserId'])):
+                    aggRides.append(ride_data)
+
+                
         
         # After aggregating rides and extracting user IDs
         user_ids = list({ride['driverUserId'] for ride in aggRides})
